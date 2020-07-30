@@ -142,7 +142,7 @@ const setup = () => {
         {
           type: 'field_input',
           name: 'COLOR',
-          text: 'color'
+          text: '.color'
         }
       ],
       inputsInline: true,
