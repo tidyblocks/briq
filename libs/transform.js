@@ -520,19 +520,46 @@ class TransformScatter extends TransformPlot {
     util.check((color === null) ||
                ((typeof color === 'string') && color),
                `Must provide null or non-empty string for color`)
-    const spec = {
-      data: {values: null},
-      autosize: "fit",
-      mark: 'point',
-      encoding: {
-        x: {field: axisX, type: 'quantitative'},
-        y: {field: axisY, type: 'quantitative'}
-      }
+               const spec = {
+                data: {values: null},
+                autosize: "fit",
+                mark: 'point',
+                encoding: {
+                  x: {field: axisX, type: 'quantitative'},
+                  y: {field: axisY, type: 'quantitative'}
+                },
+                layer: [
+                  {
+                    mark: {type: 'point', filled: true},
+                    encoding: {
+                      x: {field: axisX, type: 'quantitative'},
+                      y: {field: axisY, type: 'quantitative'}
+                    }
+                  }
+                ]
+              }
+              if (lm) {
+                spec.layer[1] = {
+                  mark: {type: 'line', color: 'firebrick'},
+                  transform: [{regression: axisY, on: axisX}],
+                  encoding: {
+                    x: {field: axisX, type: 'quantitative'},
+                    y: {field: axisY, type: 'quantitative'}
+                  }
+                }
+                spec.layer[2] = {
+                  transform: [
+                    {regression: axisY, on: axisX, params: true},
+                    {calculate: '"R²: "+format(datum.rSquared, ".2f")', as: 'R2'}
+                  ],
+                  mark: {type: 'text', color: 'firebrick', x: 'width', align: 'right', y: -5},
+                  encoding: {text: {type: 'nominal', field: 'R2'}}
+                }
+              }
+    if (color !== "") {
+      spec.layer[0].encoding.color = {field: color, type: 'nominal'}
     }
-    if (color !== " ") {
-      spec.encoding.color = {field: color, type: 'nominal'}
-    }
-    super('scatter', label, spec, {axisX, axisY, color})
+    super('scatter', label, spec, {axisX, axisY, color, lm})
   }
 }
 
