@@ -529,7 +529,7 @@ class TransformScatter extends TransformPlot {
         y: {field: axisY, type: 'quantitative'}
       }
     }
-    if (color !== ".color") {
+    if (color !== " ") {
       spec.encoding.color = {field: color, type: 'nominal'}
     }
     super('scatter', label, spec, {axisX, axisY, color})

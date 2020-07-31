@@ -122,7 +122,7 @@ const setup = () => {
     // Scatter plot
     {
       type: 'plot_scatter',
-      message0: 'Scatter %1 %2 %3 %4',
+      message0: 'Scatter %1 %2 %3 Color: %4',
       args0: [
         {
           type: 'field_input',
@@ -142,7 +142,7 @@ const setup = () => {
         {
           type: 'field_input',
           name: 'COLOR',
-          text: '.color'
+          text: ''
         }
       ],
       inputsInline: true,
@@ -191,7 +191,7 @@ const setup = () => {
     const name = block.getFieldValue('NAME')
     const xAxis = block.getFieldValue('X_AXIS')
     const yAxis = block.getFieldValue('Y_AXIS')
-    const color = block.getFieldValue('COLOR')
+    const color = block.getFieldValue('COLOR') || " "
     return `["@transform", "scatter", "${name}", "${xAxis}", "${yAxis}", "${color}"]`
   }
 }
